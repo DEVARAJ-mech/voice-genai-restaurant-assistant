@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+requests
+python-multipart
+pydantic
+openai-whisper
+torch
+numpy
