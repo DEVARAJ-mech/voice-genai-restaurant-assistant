@@ -1,23 +1,27 @@
-from app.core.llm import query_llm
-from app.services.reservation import handle_reservation
-from app.services.memory import get_state, update_state
+from llm.ollama import OllamaProvider
+from core.config import settings
+from graph.dialogue_graph import route_intent
 
 
-def handle_dialogue(user_text: str) -> str:
-    state = get_state()
-    text = user_text.lower()
+class DialogueService:
+    """Handles conversation logic and LLM routing."""
 
-    if "reserve" in text or "book" in text:
-        update_state(intent="reservation")
-        return handle_reservation(user_text)
+    def __init__(self):
+        self.llm = OllamaProvider()
 
-    prompt = f"""
-    You are a restaurant receptionist.
-    Conversation context:
-    Intent: {state.intent}
+    def handle(self, user_text: str) -> str:
+        intent = route_intent(user_text)
 
-    User: {user_text}
-    Respond politely and clearly.
-    """
+        system_prompt = (
+            "You are a polite restaurant receptionist. "
+            "Keep answers short and helpful."
+        )
 
-    return query_llm(prompt)
+        prompt = f"""
+        SYSTEM: {system_prompt}
+        INTENT: {intent}
+        USER: {user_text}
+        ASSISTANT:
+        """
+
+        return self.llm.generate(prompt)

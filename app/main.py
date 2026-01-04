@@ -1,21 +1,10 @@
 from fastapi import FastAPI
-from app.api.voice import router as voice_router
-from app.db.database import init_db
+from api.chat import router
 
-app = FastAPI(
-    title="Voice-Enabled GenAI Restaurant Assistant",
-    version="1.0"
-)
+app = FastAPI(title="Hybrid Voice AI")
+app.include_router(router)
 
 
-@app.on_event("startup")
-def startup():
-    init_db()
-
-
-app.include_router(voice_router, prefix="/voice")
-
-
-@app.get("/health")
+@app.get("/")
 def health():
-    return {"status": "running"}
+    return {"status": "ok"}
