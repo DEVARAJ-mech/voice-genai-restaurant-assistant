@@ -1,16 +1,9 @@
-from typing import Dict
+class DialogueGraph:
+    def __init__(self):
+        self.history = []
 
+    def update(self, role, text):
+        self.history.append(f"{role}: {text}")
 
-# Simple state machine (can be replaced by LangGraph later)
-
-
-def route_intent(text: str) -> str:
-    text = text.lower()
-    text = text.lower()
-    if "menu" in text:
-        return "MENU"
-    if "reserve" in text:
-        return "RESERVATION"
-    if "order" in text:
-        return "ORDER"
-    return "GENERAL"
+    def context(self):
+        return "\n".join(self.history[-6:])

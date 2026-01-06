@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class LLMProvider(ABC):
-    """Abstract base class for all LLM providers."""
+class BaseLLM(ABC):
     @abstractmethod
     def generate(self, prompt: str) -> str:
         pass

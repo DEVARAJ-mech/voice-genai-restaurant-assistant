@@ -1,10 +1,13 @@
-from fastapi import FastAPI
-from api.chat import router
-
-app = FastAPI(title="Hybrid Voice AI")
-app.include_router(router)
+from app.services.dialogue import listen, handle, speak
+import asyncio
 
 
-@app.get("/")
-def health():
-    return {"status": "ok"}
+async def run():
+    await speak("Welcome to the restaurant. How can I help you?")
+    while True:
+        text = listen()
+        reply = handle(text)
+        await speak(reply)
+
+if __name__ == "__main__":
+    asyncio.run(run())

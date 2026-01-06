@@ -1,23 +1,16 @@
 import streamlit as st
-import requests
+import asyncio
+from app.services.dialogue import listen, speak, handle
 
-st.set_page_config(page_title="AI Receptionist")
+st.set_page_config(page_title="Voice Restaurant AI")
 
-st.title("🍽️ AI Restaurant Receptionist")
+st.title("🍽️ Voice GenAI Restaurant Assistant")
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+if st.button("🎤 Speak"):
+    user_text = listen()
+    st.write("You:", user_text)
 
-user_input = st.text_input("Speak or type your request:")
+    response = handle(user_text)
+    st.write("Assistant:", response)
 
-if st.button("Send") and user_input:
-    res = requests.post(
-        "http://localhost:8000/chat",
-        json={"message": user_input},
-    )
-    answer = res.json()["response"]
-    st.session_state.history.append((user_input, answer))
-
-for u, a in st.session_state.history:
-    st.markdown(f"**You:** {u}")
-    st.markdown(f"**Assistant:** {a}")
+    asyncio.run(speak(response))

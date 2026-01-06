@@ -1,6 +1,28 @@
-fastapi
-uvicorn
-requests
-python-dotenv
-streamlit
-google-generativeai
+# Core runtime
+python-dotenv==1.0.1
+pydantic==2.6.4
+colorama==0.4.6
+
+# Voice input (microphone)
+SpeechRecognition==3.10.4
+PyAudio==0.2.14
+
+# Speech-to-text (Whisper – fast, offline)
+faster-whisper==1.0.3
+ctranslate2==4.4.0
+huggingface-hub==0.21.4
+
+# Text-to-speech
+edge-tts==6.1.9
+playsound==1.2.2
+
+# LLMs
+ollama==0.1.9
+google-genai==0.3.0
+
+# UI
+streamlit==1.31.1
+
+# Web backend (if API is used later)
+fastapi==0.110.0
+uvicorn==0.27.1
